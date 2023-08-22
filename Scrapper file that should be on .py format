@@ -1,0 +1,50 @@
+ # Check if the request was successful (status code 200)
+            if response.status_code == 200:
+                soup = BeautifulSoup(response.text, 'html.parser')
+
+                # Parse the webpage and extract the data you need here
+                # Replace the following lines with your scraping logic
+                data = []
+
+                # Example: Scraping a list of elements with CSS class 'item'
+                items = soup.find_all(class_='item')
+                for item in items:
+                    # Extract data from the item and append it to the data list
+                    data.append(item.text)
+
+                # Save the data to a CSV file
+                self.save_to_csv(data)
+            else:
+                print("Failed to retrieve data. Status code:", response.status_code)
+
+        except Exception as e:
+            print("An error occurred:", str(e))
+
+    def save_to_csv(self, data):
+        # Define the CSV file name and header
+        csv_file = 'scraped_data.csv'
+        csv_header = ['Column1', 'Column2', 'Column3']  # Replace with your column names
+
+        # Write data to the CSV file
+        with open(csv_file, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(csv_header)
+            for row in data:
+                writer.writerow([row])
+
+if __name__ == "__main__":
+    # Replace 'https://example.com' with the URL of the website you want to scrape
+    scraper = WebScraper('https://example.com')
+    scraper.scrape()
+Here's how the script works:
+
+It sends an HTTP GET request to the specified URL.
+If the request is successful (status code 200), it parses the HTML content using BeautifulSoup.
+You need to adapt the code within the scrape method to extract the data you want from the HTML structure of the specific website you are scraping.
+The extracted data is then saved to a CSV file named 'scraped_data.csv'. You should replace the example column names and data with the actual data you want to scrape.
+Please note that web scraping might be subject to legal and ethical considerations. Always check the website's terms of service and robots.txt file to ensure compliance with their policies.
+
+
+
+
+
